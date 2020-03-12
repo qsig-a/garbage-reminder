@@ -1,0 +1,24 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: garbage-reminder-job
+spec:
+  schedule: "0 18 * * WED"
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 30 # 30 Seconds
+      ttlSecondsAfterFinished: 60
+      template:
+        spec:
+          containers:
+            - name: garbage-reminder
+              image: gcr.io/testing-269518/garbage-reminder:latest
+              envFrom:
+                - secretRef:
+                    name: cpaas-auth
+                - secretRef:
+                    name: garbage-reminder
+              command: ["python"]
+              args: ["/scripts/reminder.py"]
+          restartPolicy: Never
