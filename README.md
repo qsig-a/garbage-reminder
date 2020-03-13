@@ -1,2 +1,2 @@
 # garbage-reminder
-Reminder SMS to take out the garbage
+Reminder SMS job for Kubernetes to take out the garbage
